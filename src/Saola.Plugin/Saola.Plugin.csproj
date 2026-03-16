@@ -24,6 +24,9 @@
   <ItemGroup>
 	  <PackageReference Include="Grasshopper" />
 	  <PackageReference Include="System.Drawing.Common" />
+	  <PackageReference Include="EtabSharp" />
+
+
   </ItemGroup>
   
   <ItemGroup>
@@ -33,6 +36,12 @@
   <ItemGroup>
     <Folder Include="Areas\" />
     <Folder Include="Frames\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="ETABSv1">
+      <HintPath>..\..\refs\ETABSv1.dll</HintPath>
+    </Reference>
   </ItemGroup>
   
 </Project>

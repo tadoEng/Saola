@@ -11,10 +11,15 @@
   <ItemGroup>
     <PackageReference Include="EtabSharp" />
     <PackageReference Include="Grasshopper" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="RhinoCommon" />
   </ItemGroup>
+
+  
+
+  
 
 </Project>

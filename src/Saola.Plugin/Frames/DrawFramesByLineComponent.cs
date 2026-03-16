@@ -76,31 +76,30 @@ namespace MyNamespace
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // --- Read inputs ---
-            var modelGoo = new GH_ETABSModel();
             var lines = new List<Line>();
             var section = string.Empty;
             var userNames = new List<string>();
+            var modelGoo = new GH_ETABSModel();
 
-            if (!DA.GetData(0, ref modelGoo) || modelGoo?.Value is null)
+            if (!DA.GetDataList(0, lines) || lines.Count == 0)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No lines provided.");
+                return;
+            }
+            if (!DA.GetData(1, ref section) || string.IsNullOrWhiteSpace(section))
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Section name is required.");
+                return;
+            }
+            DA.GetDataList(2, userNames);
+
+            if (!DA.GetData(3, ref modelGoo) || modelGoo?.Value is null)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
                     "No ETABS connection. Connect an Initialize component.");
                 return;
             }
-            if (!DA.GetDataList(1, lines) || lines.Count == 0)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No lines provided.");
-                return;
-            }
-            if (!DA.GetData(2, ref section) || string.IsNullOrWhiteSpace(section))
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Section name is required.");
-                return;
-            }
-            DA.GetDataList(3, userNames);
 
-            // --- Validate user names count before calling service ---
             if (userNames.Count > 0 && userNames.Count != lines.Count)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
@@ -108,18 +107,15 @@ namespace MyNamespace
                 return;
             }
 
-            // --- Delegate to service ---
             var result = FrameService.AddFramesByLines(
                 modelGoo.Value.Model,
                 lines,
                 section,
                 userNames.Count > 0 ? userNames : null);
 
-            // --- Report per-item errors as GH warnings ---
             foreach (var (index, message) in result.Errors)
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, message);
 
-            // --- Outputs ---
             DA.SetDataList(0, result.Names);
             DA.SetData(1, modelGoo);
         }
