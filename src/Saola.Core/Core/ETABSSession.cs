@@ -1,4 +1,5 @@
 using EtabSharp.Core;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Saola.Core;
 
@@ -23,7 +24,8 @@ public static class ETABSSession
     public static ETABSApplication? GetOrConnect()
     {
         if (_instance == null || !IsAlive(_instance))
-            _instance = ETABSWrapper.Connect();
+            // TODO: bypass for now, but we should probably add some user-facing logging in the future
+            _instance = ETABSWrapper.Connect(NullLogger<ETABSApplication>.Instance); 
 
         return _instance;
     }
