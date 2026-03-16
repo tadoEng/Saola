@@ -6,7 +6,8 @@ namespace Saola.Core;
 
 /// <summary>
 /// Grasshopper Goo wrapper for a live ETABSApplication connection.
-/// Required for passing the connection through GH wires.
+/// Required for passing the connection through GH wires with a distinct
+/// wire type and label ("ETABSModel") on the canvas.
 /// </summary>
 public class GH_ETABSModel : GH_Goo<ETABSApplication>
 {

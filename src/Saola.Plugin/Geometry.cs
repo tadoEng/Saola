@@ -16,9 +16,12 @@ namespace Saola.Plugin
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Geometry()
-          : base("Add Spiral", "ASpi",
+          : base(
+            "Add Spiral", 
+            "ASpi",
             "Construct an Archimedean, or arithmetic, spiral given its radii and number of turns.",
-            "Saola", "Geometry")
+            "Saola", 
+            "Geometry")
         {
         }
 

@@ -26,4 +26,13 @@
 	  <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
   
+  <ItemGroup>
+    <ProjectReference Include="..\Saola.Core\Saola.Core.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Areas\" />
+    <Folder Include="Frames\" />
+  </ItemGroup>
+  
 </Project>
