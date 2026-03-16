@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Saola.Core/Saola.Core.csproj" />
+    <Project Path="src/Saola.Plugin/Saola.Plugin.csproj" Id="53d3fa22-b90b-4c57-b45f-4342d2b53344" />
+  </Folder>
+</Solution>
