@@ -1,11 +1,10 @@
 ﻿using Grasshopper.Kernel;
-using Rhino.Geometry;
 using Saola.Core;
 using Saola.Core.Services;
 using System;
 using System.Collections.Generic;
 
-namespace Saola.Plugin.Initialize
+namespace Saola.Plugin.Model
 {
     public class SetStoriesComponent : GH_Component
     {
@@ -66,15 +65,13 @@ namespace Saola.Plugin.Initialize
 
             if (!DA.GetDataList(0, storyNames) || storyNames.Count == 0)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
-                    "Story names are required.");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Story names are required.");
                 return;
             }
 
             if (!DA.GetDataList(1, storyHeights) || storyHeights.Count == 0)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
-                    "Story heights are required.");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Story heights are required.");
                 return;
             }
 
@@ -87,49 +84,25 @@ namespace Saola.Plugin.Initialize
                 return;
             }
 
-            if (storyNames.Count != storyHeights.Count)
+            var result = StoryService.SetStories(
+                modelGoo.Value.Model,
+                storyNames,
+                storyHeights,
+                baseElevation);
+
+            if (!result.IsSuccess)
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
-                    $"Story Names count ({storyNames.Count}) must match Story Heights count ({storyHeights.Count}).");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, result.Message);
                 return;
             }
 
-            try
-            {
-                StoryService.SetStories(
-                    modelGoo.Value.Model,
-                    storyNames,
-                    storyHeights,
-                    baseElevation);
-
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Remark,
-                    $"{storyNames.Count} stories set successfully.");
-            }
-            catch (Exception ex)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
-                    $"Failed to set stories: {ex.Message}");
-                return;
-            }
-
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, result.Message);
             DA.SetData(0, modelGoo);
         }
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
-            }
-        }
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("DE6BA43B-7C83-4F6B-9A2B-C7F10BF7A4ED"); }
-        }
+        protected override System.Drawing.Bitmap Icon => null;
+
+        public override Guid ComponentGuid =>
+            new Guid("DE6BA43B-7C83-4F6B-9A2B-C7F10BF7A4ED");
     }
 }

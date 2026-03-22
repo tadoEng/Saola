@@ -1,4 +1,4 @@
-namespace Saola.Core.Services;
+namespace Saola.Core.Services.Models;
 
 /// <summary>
 /// Result of a batch operation (e.g. creating multiple frames or areas).

@@ -1,5 +1,6 @@
 using EtabSharp.Core;
 using Rhino.Geometry;
+using Saola.Core.Services.Models;
 
 namespace Saola.Core.Services;
 
